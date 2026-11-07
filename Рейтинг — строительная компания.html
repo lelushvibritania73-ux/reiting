@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Рейтинг — строительная компания</title>
+<style>
+:root{--bg1:#04153f;--bg2:#0a3a9c;--ice:#cfe6ff;--text:#eef5ff;--mute:#a9c4ee;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);min-height:100vh;
+background:radial-gradient(900px 600px at 80% -10%,#2f7bff 0%,transparent 60%),radial-gradient(700px 500px at -10% 40%,#1553d6 0%,transparent 60%),linear-gradient(180deg,var(--bg2),var(--bg1) 80%);background-attachment:fixed}
+#snow{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;background:rgba(4,21,63,.6);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.12)}
+.logo{font-weight:800;letter-spacing:.18em;font-size:18px;color:#fff;text-decoration:none}
+nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{color:var(--mute);text-decoration:none;font-size:14px;padding:8px 12px;border-radius:999px;white-space:nowrap;transition:.3s}
+nav a.on,nav a:hover{color:#fff;background:rgba(255,255,255,.12)}
+main{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:28px 18px 60px}
+.page{display:none}
+.page.show{display:block;animation:in .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes in{from{opacity:0;transform:translateY(22px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+h1{font-size:clamp(34px,8vw,64px);line-height:1.05;font-weight:800;margin:36px 0 14px}
+h2{font-size:clamp(24px,5vw,36px);margin:6px 0 18px}
+p.lead{color:var(--mute);font-size:clamp(16px,3.6vw,20px);max-width:560px;line-height:1.55}
+.hero h1,.hero p,.hero .btns{opacity:0;animation:in 1.1s .2s cubic-bezier(.2,.7,.2,1) forwards}
+.hero p{animation-delay:.5s}.hero .btns{animation-delay:.8s}
+.tag{display:inline-block;font-size:12px;letter-spacing:.2em;color:var(--ice);border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:999px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{font:inherit;font-size:16px;color:#fff;text-decoration:none;cursor:pointer;padding:14px 26px;border-radius:14px;border:1.5px solid #fff;outline:none;
+background:linear-gradient(135deg,rgba(255,255,255,0) 0%,rgba(30,100,255,.35) 100%);transition:background .5s,box-shadow .5s,transform .3s;display:inline-block}
+.btn:hover{background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(60,130,255,.55));box-shadow:0 0 28px rgba(140,190,255,.35)}
+.btn:active{transform:scale(.97)}
+.btn:focus,.btn:focus-visible,button:focus,a:focus{outline:none;box-shadow:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:22px}
+.card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:20px;backdrop-filter:blur(6px);transition:.4s}
+.card:hover{background:rgba(255,255,255,.11);transform:translateY(-4px)}
+.card h3{font-size:19px;margin-bottom:8px}
+.card p{color:var(--mute);line-height:1.5;font-size:15px}
+.ico{font-size:30px;margin-bottom:10px}
+.pic{height:150px;border-radius:12px;margin:-4px -4px 14px;background:linear-gradient(160deg,#5aa0ff,#0b2f7a);position:relative;overflow:hidden}
+.pic svg{position:absolute;bottom:0;left:0;width:100%;height:100%}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:30px}
+.stat{text-align:center;padding:16px 6px;border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.06)}
+.stat b{display:block;font-size:clamp(22px,6vw,36px)}
+.stat span{font-size:12px;color:var(--mute)}
+.steps{counter-reset:s;display:grid;gap:12px;margin-top:20px}
+.steps div{counter-increment:s;padding:16px 16px 16px 58px;position:relative;border:1px solid rgba(255,255,255,.18);border-radius:16px;background:rgba(255,255,255,.06);color:var(--mute)}
+.steps div::before{content:counter(s);position:absolute;left:14px;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:1.5px solid #fff;color:#fff;display:grid;place-items:center;font-weight:700}
+input,textarea{width:100%;font:inherit;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:14px;margin-bottom:12px;outline:none}
+input::placeholder,textarea::placeholder{color:var(--mute)}
+input:focus,textarea:focus{border-color:#fff;background:rgba(255,255,255,.14)}
+#ok{display:none;margin-top:12px;color:var(--ice)}
+footer{position:relative;z-index:1;text-align:center;color:var(--mute);font-size:13px;padding:20px}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<header>
+<a class="logo" href="#home">РЕЙТИНГ</a>
+<nav id="nav">
+<a href="#home" data-p="home">Главная</a>
+<a href="#services" data-p="services">Услуги</a>
+<a href="#projects" data-p="projects">Проекты</a>
+<a href="#about" data-p="about">О нас</a>
+<a href="#contacts" data-p="contacts">Контакты</a>
+</nav>
+</header>
+<main>
+
+<section class="page hero" id="home">
+<span class="tag">СТРОИТЕЛЬНАЯ КОМПАНИЯ</span>
+<h1>Строим надёжно.<br>Сдаём в срок.</h1>
+<p class="lead">Дома, коттеджи и ремонт под ключ. Фиксированная цена в договоре и понятные этапы работ.</p>
+<div class="btns"><a class="btn" href="#contacts">Рассчитать стоимость</a><a class="btn" href="#projects">Наши проекты</a></div>
+<div class="stats">
+<div class="stat"><b>12+</b><span>лет опыта</span></div>
+<div class="stat"><b>340</b><span>объектов сдано</span></div>
+<div class="stat"><b>5 лет</b><span>гарантии</span></div>
+</div>
+</section>
+
+<section class="page" id="services">
+<h2>Услуги</h2>
+<p class="lead">Всё, что нужно для вашего объекта, в одной компании.</p>
+<div class="grid">
+<div class="card"><div class="ico">🏠</div><h3>Строительство домов</h3><p>От фундамента до крыши: кирпич, газобетон, каркас.</p></div>
+<div class="card"><div class="ico">🛠️</div><h3>Ремонт под ключ</h3><p>Квартиры и офисы: черновой, чистовой, дизайнерский.</p></div>
+<div class="card"><div class="ico">📐</div><h3>Проектирование</h3><p>Готовые и индивидуальные проекты, смета заранее.</p></div>
+<div class="card"><div class="ico">🧱</div><h3>Фундаменты и кровля</h3><p>Ленточный, плитный, свайный. Монтаж любой кровли.</p></div>
+</div>
+<h2 style="margin-top:36px">Как мы работаем</h2>
+<div class="steps">
+<div>Заявка и бесплатный выезд специалиста</div>
+<div>Смета и договор с фиксированной ценой</div>
+<div>Строительство с фотоотчётами</div>
+<div>Сдача объекта и гарантия</div>
+</div>
+</section>
+
+<section class="page" id="projects">
+<h2>Проекты</h2>
+<div class="card" style="margin-top:22px;text-align:center;padding:56px 22px;border-style:dashed"><div class="ico">📷</div><h3>Здесь появятся фотографии наших работ</h3><p style="max-width:460px;margin:0 auto">Скоро мы разместим фотографии завершённых объектов и подробное описание каждого проекта: площадь, сроки и материалы.</p></div>
+</section>
+
+<section class="page" id="about">
+<h2>О компании</h2>
+<p class="lead">«Рейтинг» — команда инженеров и строителей, которая делает работу честно: без скрытых платежей и срыва сроков.</p>
+<div class="grid">
+<div class="card"><div class="ico">✅</div><h3>Фиксированная цена</h3><p>Сумма в договоре не растёт по ходу работ.</p></div>
+<div class="card"><div class="ico">📷</div><h3>Фотоотчёты</h3><p>Вы видите ход стройки каждую неделю.</p></div>
+<div class="card"><div class="ico">🛡️</div><h3>Гарантия 5 лет</h3><p>Отвечаем за результат после сдачи.</p></div>
+</div>
+</section>
+
+<section class="page" id="contacts">
+<h2>Контакты</h2>
+<p class="lead">Оставьте заявку, и мы перезвоним в течение часа.</p>
+<div class="card" style="margin-top:22px;max-width:480px">
+<input id="n" placeholder="Ваше имя">
+<input id="t" type="tel" placeholder="Телефон">
+<textarea id="m" rows="3" placeholder="Что хотите построить?"></textarea>
+<button class="btn" id="send" type="button">Отправить заявку</button>
+<div id="ok">Спасибо! Мы скоро свяжемся с вами.</div>
+</div>
+<div class="grid">
+<div class="card"><h3>📞 Телефон</h3><p>+7 (000) 000-00-00</p></div>
+<div class="card"><h3>✉️ Почта</h3><p>info@reiting.example</p></div>
+<div class="card"><h3>🕘 График</h3><p>Пн–Сб, 9:00–19:00</p></div>
+</div>
+</section>
+
+</main>
+<footer>© 2026 Строительная компания «Рейтинг»</footer>
+<script>
+(function(){
+var pages=['home','services','projects','about','contacts'];
+function route(){
+var h=(location.hash||'#home').slice(1);
+if(pages.indexOf(h)<0)h='home';
+pages.forEach(function(p){
+var el=document.getElementById(p);
+el.classList.remove('show');
+if(p===h){void el.offsetWidth;el.classList.add('show')}
+});
+document.querySelectorAll('#nav a').forEach(function(a){
+var on=a.dataset.p===h;a.classList.toggle('on',on);
+if(on)a.scrollIntoView({inline:'center',block:'nearest'});
+});
+window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);route();
+document.getElementById('send').addEventListener('click',function(){
+document.getElementById('ok').style.display='block';
+['n','t','m'].forEach(function(i){document.getElementById(i).value=''});
+});
+var c=document.getElementById('snow'),x=c.getContext('2d'),f=[],W,H;
+function size(){W=c.width=innerWidth;H=c.height=innerHeight}
+size();addEventListener('resize',size);
+for(var i=0;i<70;i++)f.push({x:Math.random()*2000,y:Math.random()*1200,r:Math.random()*2.4+.6,s:Math.random()*.8+.3,d:Math.random()*6});
+var t=0;
+function draw(){
+x.clearRect(0,0,W,H);t+=.01;x.fillStyle='rgba(235,245,255,.8)';
+f.forEach(function(p){
+p.y+=p.s;p.x+=Math.sin(t+p.d)*.4;
+if(p.y>H){p.y=-5;p.x=Math.random()*W}
+if(p.x>W)p.x=0;if(p.x<0)p.x=W;
+x.beginPath();x.arc(p.x,p.y,p.r,0,6.283);x.fill();
+});
+requestAnimationFrame(draw);
+}
+draw();
+})();
+</script>
+</body>
+</html>
